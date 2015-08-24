@@ -1,44 +1,79 @@
-<p xmlns="http://www.w3.org/1999/html">
-    <i>( Describe task in general )</i>
+<p>
+    R2HI 2.0 interface specification:<br>
+    1. Data package (message) represented as a list of int numbers:<br>
+       [d1, d2, d3, ..., dn], where d1 - the first letter in message<br>
+    2. Each decimal number is an ASCII-code of respective character in binary + parity bit<br>
+    See example:<br>
+</p>
+    <pre style="text-align: center;">
+    Chr | Dec  |   Bin   |P|  Bin + P | Dec
+    ---------------------------------------
+    &#39;P&#39; |  80  | 1010000 |0| 10100000 | 160
+    &#39;y&#39; | 121  | 1111001 |1| 11110011 | 243
+    &#39;t&#39; | 116  | 1110100 |0| 11101000 | 232
+    &#39;h&#39; | 104  | 1101000 |1| 11010001 | 209
+    &#39;o&#39; | 111  | 1101111 |0| 11011110 | 222
+    &#39;n&#39; | 110  | 1101110 |1| 11011101 | 221
+
+        Message = [160, 243, 232, 209, 222, 221]
+    </pre>
+<p>
+    You have to implement R2HI 2.0 translator/analyzer that must translate
+    received data package (list of int) to string message. Erroneous numbers
+    <b>must be removed</b> from package (list). Erroneous means decimal value contains
+    wrong (odd) number of '1' in a binary form:
+</p>
+<p>
+    &#39;P&#39; &rarr; 80 &rarr; 1010000 + 0 &rarr; 10100000 &rarr; ...101
+    <strong>1</strong>0000... &rarr; 10110000 (Erroneous, 4-th bit was inverted)<br>
+    <i>Notice:</i> The number of bits' substitutions can be any odd number (1, 3, 5, ...)
+</p>
+<p>
+    Example:<br>
+    Input message: [144, 16, 210, 214]<br>
+    Remove erroneous characters (binary): [10010000, <strike>00010000</strike>, 11010010, <strike>11010110</strike>]<br>
+    Result (binary): [10010000, 11010010]<br>
+    Decimal: [144, 210]<br>
+    Message string: &quot;Hi&quot;
+</p>
+<p>
+    <strong>Input: </strong> A list of int numbers
 </p>
 
 <p>
-    Sum two passed ints
-</p>
-
-<p style="text-align: center;">
-    <img class="for_info_only" title="example" src="{{MEDIA}}example.svg" alt="example" width="392px"/>
-    <img class="for_editor_only" title="example" src="{{MEDIA}}example.svg" alt="example" width="380px"/>
-</p>
-
-<p><i>( Explain input and output values )</i></p>
-<p>
-    <strong>Input: </strong> Two arguments. Both are int
-</p>
-
-<p>
-    <strong>Output: </strong> Int. 
+    <strong>Output: </strong> Message as a string
 </p>
 
 
 
 <div class="for_info_only">
-    <p><i>( Put some usage examples )</i></p>
     <p>
         <strong>Example:</strong>
     </p>
     <textarea data-code="python">
-checkio(3, 2) == 5
-checkio(5, 7) == 12
+        checkio([135, 134, 124, 233, 209, 81,
+                 42,  202, 198, 194, 229, 215,
+                 230, 146, 28, 210, 145, 137,
+                 222, 158, 49, 81, 214, 157]) == "Checkio"
+        checkio([144, 100, 200, 202, 216, 152,
+                 164, 88,  216, 222, 65,  218,
+                 175, 217, 248, 222, 171, 228,
+                 216, 205, 254, 201, 193, 220]) == "Hello World"
     </textarea>
 </div>
 
 <p class="for_info_only">
     <strong>How it is used: </strong>
-    <i>(Here you can explain how it can be used in development and what is usage of this.)</i>
+    <i>
+        Parity bits are used as the simplest form of
+        <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction" title="ecc">error detecting code</a>.
+        They allow to detect odd number of bits' substitutions in data
+    </i>
 </p>
 
 <p>
     <strong>Precondition:</strong>
-    <i>Constraints for Input</i>
+    1 &le; len(message) &lt; 100<br>
+    all(m for m in message if i.isprintable())<br>
+    0 &le; number &lt; 255<br>
 </p>
