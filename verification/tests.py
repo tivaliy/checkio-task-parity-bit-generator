@@ -11,7 +11,7 @@ Each test is dict with
 TESTS = {
     "Basics": [
         {
-            "input": [1, 2],
+            "input": 1,
             "answer": 3,
             "explanation": "First word for Python fans"
         }
