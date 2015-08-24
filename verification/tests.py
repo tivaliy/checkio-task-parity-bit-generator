@@ -10,6 +10,11 @@ Each test is dict with
 
 TESTS = {
     "Basics": [
+        {
+            "input": [1, 2],
+            "answer": 3,
+            "explanation": "First word for Python fans"
+        }
         # {
         #     "input": [135, 134, 124, 233,
         #               209, 81,  42,  202,
