@@ -1,18 +1,20 @@
 <div class="for_info_only">
-    During last <i>I3E Industrial Conference</i>i> in Robo-city a new version of
-    communication protocol R2HI 2.0 (Robot-to-Human Interface) was adopted.
-    A new version of R2HI interface extend existing one in adding
-    <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction" title="ecc">error detecting code</a> feature.
-    This feature allows to send data from robots that are located
-    on a long distance from human settlements with higher level of reliability.
-    During the data transmission some bits can be substituted due to external
-    events (radiation impact, different noises etc.). In R2HI 2.0 simple
-    <a href="https://en.wikipedia.org/wiki/Parity_bit" title="parity bit">parity bit</a>
-    check technique is proposed.
+    <p>
+        During last <i>I3E Industrial Conference</i> in Robo-city a new version of
+        communication protocol R2HI 2.0 (Robot-to-Human Interface) was adopted.
+        A new version of R2HI interface extend existing one in adding
+        <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction" title="ecc">error detecting code</a> feature.
+        This feature allows to send data from robots that are located
+        on a long distance from human settlements with higher level of reliability.
+        During the data transmission some bits can be substituted due to external
+        events (radiation impact, different noises etc.). In R2HI 2.0 simple
+        <a href="https://en.wikipedia.org/wiki/Parity_bit" title="parity bit">parity bit</a>
+        check technique is proposed.
+    </p>
 </div>
 <p>
     R2HI 2.0 interface specification:<br>
-    1. Data package (message) represented as a list of int numbers:<br>
+    1. Data package (message) represented as a list of int numbers (0 &le; number &le; 255):<br>
        [d1, d2, d3, ..., dn], where d1 - the first letter in message<br>
     2. Each decimal number is an ASCII-code of respective character in binary + parity bit<br>
     See example:<br>
@@ -44,9 +46,9 @@
     How it works?<br>
     Input message: [144, 16, 210, 214]<br>
     Remove erroneous characters (binary): [10010000, <strike>00010000</strike>, 11010010, <strike>11010110</strike>]<br>
-    Result (binary): [10010000, 11010010]<br>
-    Decimal: [144, 210]<br>
-    Message string: &quot;Hi&quot;
+    Binary result (remove parity bit): [1001000<strike>0</strike>, 1101001<strike>0</strike>]<br>
+    Decimal: [72, 105]<br>
+    Message string (ASCII): &quot;Hi&quot;
 </p>
 <p>
     <strong>Input: </strong> A list of int numbers
@@ -55,8 +57,6 @@
 <p>
     <strong>Output: </strong> Message as a string
 </p>
-
-
 
 <div class="for_info_only">
     <p>
@@ -87,5 +87,5 @@
     <strong>Precondition:</strong>
     1 &le; len(message) &lt; 100<br>
     all(m for m in message if i.isprintable())<br>
-    0 &le; number &lt; 255<br>
+    0 &le; number &le; 255<br>
 </p>
