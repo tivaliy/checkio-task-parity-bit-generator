@@ -1,23 +1,12 @@
 <div class="for_info_only">
-    <p>
-        During last <i>I3E Industrial Conference</i> in Robo-city a new version of
-        communication protocol R2HI 2.0 (Robot-to-Human Interface) was adopted.
-        A new version of R2HI interface extends existing one in adding
-        <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction" title="ecc">error detecting code</a> feature.
-        This feature allows to send data from robots that are located
-        on a long distance to human settlements with higher level of reliability.
-        During the data transmission some bits can be substituted due to external
-        events (radiation impact, different noises etc.). In R2HI 2.0 simple
-        <a href="https://en.wikipedia.org/wiki/Parity_bit" title="parity bit">parity bit</a>
-        check technique is proposed.
-    </p>
+    <p> During the last <i>I3E Industrial Conference</i> in Robo-city, a new version of the communication protocol R2HI 2.0 (Robot-to-Human Interface) was adopted. A new version of the R2HI interface extends the existing one by adding an <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction" title="ecc">error detection</a> feature. This feature allows us to send data to robots located a long distance away near some human settlements with higher level of reliability. During the data transmission some bits can be substituted due to external events (radiation impact, different noises etc.). In R2HI 2.0 simple <a href="https://en.wikipedia.org/wiki/Parity_bit" title="parity bit">parity bit</a> check technique is proposed.</p>
 </div>
 <p>
     R2HI 2.0 interface specification:<br>
-    1. Data package (message) represented as a list of int numbers (0 &le; number &le; 255):<br>
-       [d1, d2, d3, ..., dn], where d1 - the first letter in message<br>
-    2. Each decimal number is an ASCII-code of respective character in binary + parity bit<br>
-    See example:<br>
+    1. Data packages (message) are represented as a list of int numbers (0 &le; number &le; 255):<br>
+       [d1, d2, d3, ..., dn], where d1 is the first letter in message<br>
+    2. Each decimal number is an ASCII-code of respective characters in binary + parity bit<br>
+    Example:<br>
 </p>
     <pre style="text-align: center;">
     Chr | Dec  |   Bin   |P|  Bin + P | Dec
@@ -32,18 +21,18 @@
         Message = [160, 243, 232, 209, 222, 221]
     </pre>
 <p>
-    You have to implement &quot;R2HI 2.0 translator/analyzer&quot; that translates
-    received data package (list of int) to string message. Before the translation erroneous numbers
-    <b>must be removed</b> from package (list). Erroneous means decimal value contains
-    wrong (odd) number of '1' in a binary form:
+    You have to implement an &quot;R2HI 2.0 translator/analyzer&quot; that translates a
+    received data package (list of int) into a string message. Before the translation, erroneous numbers
+    <b>must be removed</b> from the package (list). Erroneous means the decimal value contains
+    a wrong (odd) number of '1' in a binary form:
 </p>
 <p>
     &#39;P&#39; &rarr; 80 &rarr; 1010000 + 0 &rarr; 10100000 &rarr; ...101<strong>1</strong>0000... &rarr;
     10110000 (Erroneous, 4-th bit was inverted)<br>
-    <i>Notice:</i> During the data transmission at most one bit can be wrong (substituted)
+    <i>Notice:</i> During the data transmission one bit can be wrong (substituted) at most.
 </p>
 <p>
-    How it works?<br>
+    How it Works:<br>
     Input message: [144, 16, 210, 214]<br>
     Remove erroneous characters (binary): [10010000, <strike>00010000</strike>, 11010010, <strike>11010110</strike>]<br>
     Binary result (remove parity bit): [1001000<strike>0</strike>, 1101001<strike>0</strike>]<br>
@@ -79,7 +68,7 @@
     <i>
         Parity bits are used as the simplest form of
         <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction" title="ecc">error detecting code</a>.
-        They allow to detect odd number of bits' substitutions in data
+        They allow you to detect odd numbers of bit substitutions in data.
     </i>
 </p>
 
